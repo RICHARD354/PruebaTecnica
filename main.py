@@ -37,8 +37,44 @@ cita1 = Cita(
 
 hospital.registrar_cita(cita1)
 
-print()
-print("=== CITAS ===")
+print("\n--- CITAS ---")
 
 for cita in hospital.citas:
+    print(cita)
+
+cita2 = Cita(
+    paciente2,
+    doctor1,
+    "10/07/2026",
+    "10:00"
+)
+
+if hospital.registrar_cita(cita2):
+    print("Cita registrada correctamente.")
+else:
+    print("Error: el doctor ya tiene una cita en ese horario.")
+
+
+cita3 = Cita(
+    paciente1,
+    doctor2,
+    "20/07/2026",
+    "13:00"
+)
+hospital.registrar_cita(cita3)
+
+cita4 = Cita(
+    paciente1,
+    doctor2,
+    "25/07/2026",
+    "13:00"
+)
+hospital.registrar_cita(cita4)
+
+
+print("\n--- HISTORIAL ---")
+
+historial = hospital.buscar_historial("Carlos Gómez")
+
+for cita in historial:
     print(cita)
