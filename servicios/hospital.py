@@ -1,4 +1,5 @@
 from database import repositorio
+from datetime import datetime
 
 class Hospital:
     """
@@ -22,15 +23,15 @@ class Hospital:
         """
         Registra una cita si el doctor está disponible.
         """
+        if not self.validar_fecha_hora_cita(cita.fecha, cita.hora):
+            return False
+
         citas = repositorio.obtener_citas_doctor(
             cita.doctor.id_doctor
         )
 
         for fecha, hora in citas:
-            if (
-                fecha == cita.fecha
-                and hora == cita.hora
-            ):
+            if fecha == cita.fecha and hora == cita.hora:
                 return False
 
         repositorio.guardar_cita(cita)
@@ -59,3 +60,19 @@ class Hospital:
         Devuelve todas las citas de un paciente.
         """
         return repositorio.obtener_historial(nombre_paciente)
+
+    def validar_fecha_hora_cita(self, fecha, hora):
+        """
+        Verifica que la fecha y hora de la cita no sean anteriores
+        a la fecha y hora actual.
+        """
+        try:
+            fecha_hora_cita = datetime.strptime(
+                f"{fecha} {hora}",
+                "%d/%m/%Y %H:%M"
+            )
+
+            return fecha_hora_cita >= datetime.now()
+
+        except ValueError:
+            return False

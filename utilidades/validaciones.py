@@ -8,7 +8,6 @@ def leer_entero(mensaje):
         try:
             return int(input(mensaje))
         except ValueError:
-
             print("\nDebe ingresar un número.")
 
 def leer_opcion(mensaje, minimo, maximo):

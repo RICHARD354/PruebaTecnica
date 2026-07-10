@@ -111,7 +111,7 @@ def agendar_cita(hospital):
         1,
         len(doctores)
     ) - 1
-    paciente = pacentes[opcion_paciente]
+    paciente = pacientes[opcion_paciente]
 
     fecha = leer_fecha("Fecha (dd/mm/aaaa): ")
     hora = leer_hora("Hora (HH:MM): ")
