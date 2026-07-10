@@ -5,7 +5,6 @@ class Hospital:
     """
     Administra los doctores, pacientes y citas del sistema.
     """
-    pass
 
     def registrar_doctor(self, doctor):
         """
@@ -21,21 +20,20 @@ class Hospital:
 
     def registrar_cita(self, cita):
         """
-        Registra una cita si el doctor está disponible.
+        Registra una cita si se cumple con los requirimientos del hospital.
         """
         if not self.validar_fecha_hora_cita(cita.fecha, cita.hora):
-            return False
+            return "Fecha y hora no validos, fuera de tiempo."
 
         citas = repositorio.obtener_citas_doctor(
             cita.doctor.id_doctor
         )
 
-        for fecha, hora in citas:
-            if fecha == cita.fecha and hora == cita.hora:
-                return False
-
+        for fecha_existente, hora_existente in citas:
+            if fecha_existente == cita.fecha and hora_existente == cita.hora:
+                return "El doctor ya tiene una cita en ese horario."
         repositorio.guardar_cita(cita)
-        return True
+        return "Cita registrada correctamente."
 
     def obtener_doctores(self):
         """

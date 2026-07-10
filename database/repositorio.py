@@ -1,3 +1,4 @@
+import sqlite3
 from database.conexion import obtener_conexion
 from usuarios.doctor import Doctor
 from usuarios.paciente import Paciente
@@ -7,6 +8,7 @@ def guardar_doctor(doctor):
     """
     Guarda un doctor en la base de datos.
     """
+    conexion = None
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -24,8 +26,8 @@ def guardar_doctor(doctor):
         doctor.id_doctor = cursor.lastrowid
 
         conexion.commit()
-    except Exception as e:
-        print(f"Error al guardar el doctor: {e}")
+    except sqlite3.Error as e:
+        print(f"\nError al guardar el doctor: {e}")
 
     finally:
         if conexion:
@@ -36,6 +38,7 @@ def guardar_paciente(paciente):
     """
     Guarda un paciente en la base de datos.
     """
+    conexion = None
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -53,8 +56,8 @@ def guardar_paciente(paciente):
         paciente.id_paciente = cursor.lastrowid
 
         conexion.commit()
-    except Exception as e:
-        print(f"Error al guardar al paciente: {e}")
+    except sqlite3.Error as e:
+        print(f"\nError al guardar al paciente: {e}")
 
     finally:
         if conexion:
@@ -64,6 +67,7 @@ def guardar_cita(cita):
     """
     Guarda una cita en la base de datos.
     """
+    conexion = None
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -87,10 +91,10 @@ def guardar_cita(cita):
                 cita.hora
             )
         )
-
+        cita.id_cita = cursor.lastrowid
         conexion.commit()
-    except Exception as e:
-        print(f"Error al guardar la cita: {e}")
+    except sqlite3.Error as e:
+        print(f"\nError al guardar la cita: {e}")
     finally:
         if conexion:
             conexion.close()
@@ -99,6 +103,7 @@ def obtener_doctores():
     """
     Obtiene todos los doctores registrados.
     """
+    conexion = None
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -123,7 +128,7 @@ def obtener_doctores():
         
         return doctores
     except sqlite3.Error as e:
-        print(f"Error al obtener a los doctores: {e}")
+        print(f"\nError al obtener a los doctores: {e}")
         return []
     finally:
         if conexion:
@@ -134,6 +139,7 @@ def obtener_pacientes():
     """
     Obtiene todos los pacientes registrados.
     """
+    conexion = None
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -160,7 +166,7 @@ def obtener_pacientes():
 
         return pacientes
     except sqlite3.Error as e:
-        print(f"Error al obtener a los pacientes: {e}")
+        print(f"\nError al obtener a los pacientes: {e}")
         return []
     finally:
         if conexion:
@@ -170,6 +176,7 @@ def obtener_citas():
     """
     Obtiene todas las citas registradas.
     """
+    conexion = None
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -232,7 +239,7 @@ def obtener_citas():
             citas.append(cita)
         return citas
     except sqlite3.Error as e:
-        print(f"Error al obtener las citas: {e}")
+        print(f"\nError al obtener las citas: {e}")
         return []
     finally:
         if conexion:
@@ -242,6 +249,7 @@ def obtener_citas_doctor(id_doctor):
     """
     Obtiene todas las citas de un doctor.
     """
+    conexion = None
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -257,7 +265,7 @@ def obtener_citas_doctor(id_doctor):
         registros = cursor.fetchall()
         return registros
     except sqlite3.Error as e:
-        print(f"Error al obtener las citas del doctor {id_doctor}: {e}")
+        print(f"\nError al obtener las citas del doctor {id_doctor}: {e}")
         return []
     finally:
         if conexion:
@@ -267,6 +275,7 @@ def obtener_historial(nombre):
     """
     Obtiene el historial de un paciente.
     """
+    conexion = None
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -290,7 +299,7 @@ def obtener_historial(nombre):
             INNER JOIN pacientes p
                 ON p.id_paciente = c.id_paciente
             WHERE p.nombre LIKE ?
-            ORDER BY c.fecha
+            ORDER BY c.fecha,c.hora
         """, (f"%{nombre}%",))
 
         registros = cursor.fetchall()
@@ -332,7 +341,7 @@ def obtener_historial(nombre):
 
         return citas
     except sqlite3.Error as e:
-        print(f"Error al obtener el historial del paciente {nombre}: {e}")
+        print(f"\nError al obtener el historial del paciente {nombre}: {e}")
         return []
     finally:
         if conexion:

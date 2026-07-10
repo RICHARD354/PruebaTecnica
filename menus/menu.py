@@ -74,7 +74,9 @@ def mostrar_pacientes(hospital):
         print(f"{indice}. {paciente}")
 
 def agendar_cita(hospital):
-
+    """
+    Solicita la información necesaria y registra una cita médica.
+    """
     print("\n--- Agendar Cita ---")
 
     doctores = hospital.obtener_doctores()
@@ -91,8 +93,7 @@ def agendar_cita(hospital):
 
     print("\nDoctores disponibles:")
 
-    for i, doctor in enumerate(doctores, start=1):
-        print(f"{i}. {doctor}")
+    mostrar_doctores(hospital)
 
     opcion_doctor = leer_opcion(
         "\nSeleccione un doctor: ",
@@ -101,15 +102,14 @@ def agendar_cita(hospital):
     ) - 1
     doctor = doctores[opcion_doctor]
 
-    print("\n Pacientes registrados:")
+    print("\nPacientes registrados:")
 
-    for i, paciente in enumerate(pacientes, start=1):
-        print(f"{i}. {paciente}")
+    mostrar_pacientes(hospital)
 
     opcion_paciente = leer_opcion(
         "\nSeleccione un paciente: ",
         1,
-        len(doctores)
+        len(pacientes)
     ) - 1
     paciente = pacientes[opcion_paciente]
 
@@ -123,11 +123,8 @@ def agendar_cita(hospital):
         hora
     )
 
-    if hospital.registrar_cita(cita):
-        print("\nCita registrada correctamente.")
+    print(f"\n{hospital.registrar_cita(cita)}")
 
-    else:
-        print("\nEl doctor ya tiene una cita en ese horario.")
 
 def mostrar_citas(hospital):
     """
@@ -150,7 +147,7 @@ def buscar_historial(hospital):
     """
 
     print("\n--- Historial del Paciente ---")
-    nombre = input("Nombre del paciente: ").strip()
+    nombre = leer_texto("Nombre del paciente: ")
     historial = hospital.buscar_historial(nombre)
 
     if not historial:
