@@ -1,6 +1,7 @@
 from usuarios.doctor import Doctor
 from usuarios.paciente import Paciente
 from servicios.cita import Cita
+from utilidades.validaciones import leer_opcion
 
 def mostrar_menu():
     """Muestra el menú principal."""
@@ -24,18 +25,15 @@ def registrar_doctor(hospital):
 
     nombre = input("Nombre: ").strip()
     especialidad = input("Especialidad: ").strip()
-
+    
     doctor = Doctor(nombre, especialidad)
-
     hospital.registrar_doctor(doctor)
 
     print("\nDoctor registrado correctamente.")
 
 def mostrar_doctores(hospital):
     """Muestra todos los doctores registrados."""
-
     print("\n--- Doctores Registrados ---")
-
     doctores = hospital.obtener_doctores()
 
     if not doctores:
@@ -49,14 +47,12 @@ def registrar_paciente(hospital):
     """
     Solicita los datos del paciente y lo registra.
     """
-
     print("\n--- Registrar Paciente ---")
 
     nombre = input("Nombre: ").strip()
     motivo = input("Síntomas/Motivo: ").strip()
 
     paciente = Paciente(nombre, motivo)
-
     hospital.registrar_paciente(paciente)
 
     print("\nPaciente registrado correctamente.")
@@ -65,9 +61,7 @@ def mostrar_pacientes(hospital):
     """
     Muestra todos los pacientes registrados.
     """
-
     print("\n--- Pacientes Registrados ---")
-
     pacientes = hospital.obtener_pacientes()
 
     if not pacientes:
@@ -98,7 +92,11 @@ def agendar_cita(hospital):
     for i, doctor in enumerate(doctores, start=1):
         print(f"{i}. {doctor}")
 
-    opcion_doctor = int(input("\nSeleccione un doctor: ")) - 1
+    opcion_doctor = leer_opcion(
+        "\nSeleccione un doctor: ",
+        1,
+        len(doctores)
+    ) - 1
     doctor = hospital.obtener_doctor(opcion_doctor)
 
     print("\n Pacientes registrados:")
@@ -106,7 +104,11 @@ def agendar_cita(hospital):
     for i, paciente in enumerate(pacientes, start=1):
         print(f"{i}. {paciente}")
 
-    opcion_paciente = int(input("\nSeleccione un paciente: ")) - 1
+    opcion_paciente = leer_opcion(
+        "\nSeleccione un paciente: ",
+        1,
+        len(doctores)
+    ) - 1
     paciente = hospital.obtener_paciente(opcion_paciente)
 
     fecha = input("Fecha (dd/mm/aaaa): ").strip()
@@ -124,3 +126,38 @@ def agendar_cita(hospital):
 
     else:
         print("\nEl doctor ya tiene una cita en ese horario.")
+
+def mostrar_citas(hospital):
+    """
+    Muestra todas las citas registradas.
+    """
+    print("\n--- Citas Programadas ---")
+
+    citas = hospital.obtener_citas()
+
+    if not citas:
+        print("No hay citas registradas.")
+        return
+
+    for i, cita in enumerate(citas, start=1):
+        print(f"{i}. {cita}")
+
+def buscar_historial(hospital):
+    """
+    Busca el historial de citas de un paciente.
+    """
+
+    print("\n--- Historial del Paciente ---")
+
+    nombre = input("Nombre del paciente: ").strip()
+
+    historial = hospital.buscar_historial(nombre)
+
+    if not historial:
+        print("\nNo se encontraron citas para ese paciente.")
+        return
+
+    print()
+
+    for i, cita in enumerate(historial, start=1):
+        print(f"{i}. {cita}")
