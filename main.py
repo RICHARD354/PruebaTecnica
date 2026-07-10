@@ -1,9 +1,11 @@
 from servicios.hospital import Hospital
 from menus import menu
 from utilidades.validaciones import leer_opcion
+from database.init_db import crear_base_datos
 
 def main():
 
+    crear_base_datos()
     hospital = Hospital()
 
     while True:

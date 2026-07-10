@@ -1,3 +1,5 @@
+from database import repositorio
+
 class Hospital:
     """
     Administra los doctores, pacientes y citas del sistema.
@@ -13,21 +15,20 @@ class Hospital:
         Agrega un doctor al sistema.
         """
         self.doctores.append(doctor)
+        repositorio.guardar_doctor(doctor)
 
     def registrar_paciente(self, paciente):
         """
         Agrega un paciente al sistema.
         """
         self.pacientes.append(paciente)
+        repositorio.guardar_paciente(paciente)
 
     def registrar_cita(self, cita):
-
         """
         Registra una cita si el doctor está disponible.
         """
-
         for cita_existente in self.citas:
-
             if (
                 cita_existente.doctor == cita.doctor
                 and cita_existente.fecha == cita.fecha
@@ -36,6 +37,7 @@ class Hospital:
                 return False
 
         self.citas.append(cita)
+        repositorio.guardar_cita(cita)
         return True
 
     def obtener_doctores(self):

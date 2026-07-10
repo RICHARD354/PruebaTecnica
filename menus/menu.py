@@ -3,6 +3,8 @@ from usuarios.paciente import Paciente
 from servicios.cita import Cita
 from utilidades.validaciones import leer_opcion
 from utilidades.validaciones import leer_texto
+from utilidades.validaciones import leer_fecha
+from utilidades.validaciones import leer_hora
 
 def mostrar_menu():
     """Muestra el menú principal."""
@@ -18,14 +20,13 @@ def mostrar_menu():
     print("0. Salir")
     print("-" * 45)
 
-
 def registrar_doctor(hospital):
     """Solicita la información y registra un doctor."""
 
     print("\n--- Registrar Doctor ---")
 
-    nombre = input("Nombre: ").strip()
-    especialidad = input("Especialidad: ").strip()
+    nombre = leer_texto("Nombre: ")
+    especialidad = leer_texto("Especialidad: ")
     
     doctor = Doctor(nombre, especialidad)
     hospital.registrar_doctor(doctor)
@@ -50,8 +51,8 @@ def registrar_paciente(hospital):
     """
     print("\n--- Registrar Paciente ---")
 
-    nombre = input("Nombre: ").strip()
-    motivo = input("Síntomas/Motivo: ").strip()
+    nombre = leer_texto("Nombre: ")
+    motivo = leer_texto("Síntomas/Motivo: ")
 
     paciente = Paciente(nombre, motivo)
     hospital.registrar_paciente(paciente)
@@ -112,8 +113,8 @@ def agendar_cita(hospital):
     ) - 1
     paciente = hospital.obtener_paciente(opcion_paciente)
 
-    fecha = input("Fecha (dd/mm/aaaa): ").strip()
-    hora = input("Hora (HH:MM): ").strip()
+    fecha = leer_fecha("Fecha (dd/mm/aaaa): ")
+    hora = leer_hora("Hora (HH:MM): ")
 
     cita = Cita(
         paciente,
