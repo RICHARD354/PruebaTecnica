@@ -99,7 +99,7 @@ def agendar_cita(hospital):
         1,
         len(doctores)
     ) - 1
-    doctor = hospital.obtener_doctor(opcion_doctor)
+    doctor = doctores[opcion_doctor]
 
     print("\n Pacientes registrados:")
 
@@ -111,7 +111,7 @@ def agendar_cita(hospital):
         1,
         len(doctores)
     ) - 1
-    paciente = hospital.obtener_paciente(opcion_paciente)
+    paciente = pacentes[opcion_paciente]
 
     fecha = leer_fecha("Fecha (dd/mm/aaaa): ")
     hora = leer_hora("Hora (HH:MM): ")
@@ -150,16 +150,12 @@ def buscar_historial(hospital):
     """
 
     print("\n--- Historial del Paciente ---")
-
     nombre = input("Nombre del paciente: ").strip()
-
     historial = hospital.buscar_historial(nombre)
 
     if not historial:
         print("\nNo se encontraron citas para ese paciente.")
         return
-
-    print()
 
     for i, cita in enumerate(historial, start=1):
         print(f"{i}. {cita}")

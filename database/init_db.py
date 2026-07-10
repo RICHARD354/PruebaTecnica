@@ -8,12 +8,10 @@ def crear_base_datos():
     cursor = conexion.cursor()
 
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS doctores(
+    CREATE TABLE IF NOT EXISTS doctores (
 
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-
+        id_doctor INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL,
-
         especialidad TEXT NOT NULL
 
     )
@@ -22,10 +20,8 @@ def crear_base_datos():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS pacientes(
 
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-
+        id_paciente INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL,
-
         sintomas TEXT NOT NULL
 
     )
@@ -34,17 +30,16 @@ def crear_base_datos():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS citas(
 
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-        paciente TEXT NOT NULL,
-
-        doctor TEXT NOT NULL,
-
-        especialidad TEXT NOT NULL,
-
+        id_cita INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_doctor INTEGER NOT NULL,
+        id_paciente INTEGER NOT NULL,
         fecha TEXT NOT NULL,
+        hora TEXT NOT NULL,
 
-        hora TEXT NOT NULL
+        FOREIGN KEY(id_doctor)
+        REFERENCES doctores(id_doctor),
+        FOREIGN KEY(id_paciente)
+            REFERENCES pacientes(id_paciente)
 
     )
     """)
