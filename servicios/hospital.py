@@ -69,3 +69,16 @@ class Hospital:
                 historial.append(cita)
 
         return historial
+
+    def obtener_doctor(self, indice):
+        """
+        Devuelve un doctor según su posición en la lista.
+        """
+        return self.doctores[indice]
+
+
+    def obtener_paciente(self, indice):
+        """
+        Devuelve un paciente según su posición en la lista.
+        """
+        return self.pacientes[indice]

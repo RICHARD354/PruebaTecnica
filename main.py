@@ -1,80 +1,39 @@
-from usuarios.doctor import Doctor
-from usuarios.paciente import Paciente
 from servicios.hospital import Hospital
-from servicios.cita import Cita
+from menus import menu
 
-hospital = Hospital()
+def main():
 
-doctor1 = Doctor("Juan Pérez", "Cardiología")
-doctor2 = Doctor("Ana Torres", "Pediatría")
+    hospital = Hospital()
 
-hospital.registrar_doctor(doctor1)
-hospital.registrar_doctor(doctor2)
+    while True:
 
-paciente1 = Paciente("Carlos Gómez", "Dolor de cabeza")
-paciente2 = Paciente("Laura Díaz", "Fiebre")
+        menu.mostrar_menu()
 
-hospital.registrar_paciente(paciente1)
-hospital.registrar_paciente(paciente2)
+        opcion = input("Seleccione una opción: ")
 
-print("--- DOCTORES ---")
-for doctor in hospital.doctores:
-    print(doctor)
+        if opcion == "0":
+            print("\nGracias por utilizar el sistema.")
+            break
 
-print()
+        elif opcion == "1":
+            menu.registrar_doctor(hospital)
+            menu.mostrar_doctores(hospital)
+        elif opcion == "2":
+            menu.registrar_paciente(hospital)
+            menu.mostrar_pacientes(hospital)
 
-print("--- PACIENTES ---")
-for paciente in hospital.pacientes:
-    print(paciente)
+        elif opcion == "3":
+            menu.agendar_cita(hospital)
 
+        elif opcion == "4":
+            print("\n[Mostrar citas]")
 
-cita1 = Cita(
-    paciente1,
-    doctor1,
-    "10/07/2026",
-    "10:00"
-)
+        elif opcion == "5":
+            print("\n[Buscar historial]")
 
-hospital.registrar_cita(cita1)
-
-print("\n--- CITAS ---")
-
-for cita in hospital.citas:
-    print(cita)
-
-cita2 = Cita(
-    paciente2,
-    doctor1,
-    "10/07/2026",
-    "10:00"
-)
-
-if hospital.registrar_cita(cita2):
-    print("Cita registrada correctamente.")
-else:
-    print("Error: el doctor ya tiene una cita en ese horario.")
+        else:
+            print("\nOpción no válida.")
 
 
-cita3 = Cita(
-    paciente1,
-    doctor2,
-    "20/07/2026",
-    "13:00"
-)
-hospital.registrar_cita(cita3)
-
-cita4 = Cita(
-    paciente1,
-    doctor2,
-    "25/07/2026",
-    "13:00"
-)
-hospital.registrar_cita(cita4)
-
-
-print("\n--- HISTORIAL ---")
-
-historial = hospital.buscar_historial("Carlos Gómez")
-
-for cita in historial:
-    print(cita)
+if __name__ == "__main__":
+    main()
