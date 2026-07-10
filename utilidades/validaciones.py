@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def leer_entero(mensaje):
     """
     Solicita un número entero hasta que el usuario ingrese un valor válido.
@@ -18,3 +20,38 @@ def leer_opcion(mensaje, minimo, maximo):
         if minimo <= opcion <= maximo:
             return opcion
         print(f"\nDebe ingresar un número entre {minimo} y {maximo}.")
+
+def leer_texto(mensaje):
+    """
+    Solicita un texto que no puede estar vacío.
+    """
+    while True:
+        texto = input(mensaje).strip()
+        if texto:
+            return texto
+
+        print("\nEl campo no puede estar vacío.")
+
+def leer_fecha(mensaje):
+    """
+    Solicita una fecha con formato dd/mm/aaaa.
+    """
+    while True:
+        fecha = input(mensaje).strip()
+        try:
+            datetime.strptime(fecha, "%d/%m/%Y")
+            return fecha
+        except ValueError:
+            print("\nFormato de fecha incorrecto.")
+
+def leer_hora(mensaje):
+    """
+    Solicita una hora con formato HH:MM.
+    """
+    while True:
+        hora = input(mensaje).strip()
+        try:
+            datetime.strptime(hora, "%H:%M")
+            return hora
+        except ValueError:
+            print("\nFormato de hora incorrecto.")

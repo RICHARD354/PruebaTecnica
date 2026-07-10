@@ -2,6 +2,7 @@ from usuarios.doctor import Doctor
 from usuarios.paciente import Paciente
 from servicios.cita import Cita
 from utilidades.validaciones import leer_opcion
+from utilidades.validaciones import leer_texto
 
 def mostrar_menu():
     """Muestra el menú principal."""
